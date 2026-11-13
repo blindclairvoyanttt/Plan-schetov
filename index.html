@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0c6a4d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="План счетов">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Типовой план счетов: тренажёр</title>
+<style>
+:root{--bg:#e8eee5;--card:#f8fbf5;--ink:#15251d;--mut:#5b6a60;--line:#c3d0c2;--acc:#0c6a4d;--on:#fff;--ok:#1b7a47;--okbg:#d3ecd9;--bad:#b3261e;--badbg:#f7d9d5;--rule:#c4513f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1a15;--card:#17261f;--ink:#e4efe8;--mut:#93a69a;--line:#2d4238;--acc:#3fae86;--on:#06130d;--ok:#6fd49a;--okbg:#17402a;--bad:#ff8a80;--badbg:#472320;--rule:#d9705e}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0f1a15;--card:#17261f;--ink:#e4efe8;--mut:#93a69a;--line:#2d4238;--acc:#3fae86;--on:#06130d;--ok:#6fd49a;--okbg:#17402a;--bad:#ff8a80;--badbg:#472320;--rule:#d9705e}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.45 "Bahnschrift","DIN Alternate","Segoe UI",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+#app{max-width:560px;margin:0 auto;padding:18px 16px 40px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+h1{font-size:28px;line-height:1.15;margin:8px 0 4px;letter-spacing:-.01em}
+h2{font-size:23px;line-height:1.3;margin:0;font-weight:600}
+header p{margin:0 0 18px;color:var(--mut)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--line);padding:5px;border-radius:12px;margin-bottom:14px}
+.seg button{border:0;background:transparent;padding:10px 6px;border-radius:8px;font-weight:600}
+.seg button small{display:block;font-weight:400;color:var(--mut);font-size:13px}
+.seg button.on{background:var(--card);box-shadow:0 1px 0 var(--line)}
+.seg button.on small{color:var(--acc)}
+.row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.row i{font-style:normal;font-weight:700;color:var(--acc);min-width:34px}
+.row b{flex:1;font-weight:600}
+.row span{color:var(--mut);font-size:14px;text-align:right}
+.row.all{background:var(--acc);border-color:var(--acc);color:var(--on)}
+.row.all b,.row.all span{color:var(--on)}
+.top{display:flex;justify-content:space-between;align-items:center;color:var(--mut)}
+.ghost{background:none;border:0;padding:8px 0;color:var(--acc);font-weight:600}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:2px 0 18px}
+.bar div{height:100%;background:var(--acc);transition:width .25s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 18px 22px;margin-bottom:16px;background-image:repeating-linear-gradient(transparent 0 33px,var(--line) 33px 34px);position:relative}
+.card::after{content:"";position:absolute;top:0;bottom:0;right:22px;width:5px;border-left:1px solid var(--rule);border-right:1px solid var(--rule);opacity:.7}
+.card h2{padding-right:34px;background:var(--card);display:inline}
+.lbl{color:var(--mut);font-size:14px;margin-bottom:8px;background:var(--card);display:inline-block}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:18px 8px;font-size:30px;font-weight:700;letter-spacing:.02em}
+.opt:disabled{cursor:default}
+.opt.ok,.opt.bad{border-width:2px}
+.opt.ok{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.opt.bad{background:var(--badbg);border-color:var(--bad);color:var(--bad)}
+.inp{display:flex;flex-direction:column;gap:10px}
+.inp input{font:700 30px/1 inherit;font-family:inherit;text-align:center;padding:16px 8px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);letter-spacing:.08em}
+.inp input::placeholder{font-size:15px;font-weight:400;letter-spacing:0;color:var(--mut)}
+.inp input.ok{border-color:var(--ok);background:var(--okbg);color:var(--ok)}
+.inp input.bad{border-color:var(--bad);background:var(--badbg);color:var(--bad)}
+.main{width:100%;background:var(--acc);color:var(--on);border:0;border-radius:12px;padding:15px;font-weight:700;font-size:17px}
+.sec{background:transparent;color:var(--acc);border:2px solid var(--acc);margin-top:10px}
+.fb{margin:16px 0 12px;padding:12px 14px;border-radius:10px;font-weight:600}
+.fb.ok{background:var(--okbg);color:var(--ok)}
+.fb.bad{background:var(--badbg);color:var(--bad)}
+.score{font-size:64px;font-weight:700;line-height:1;margin:18px 0 4px;color:var(--acc)}
+.mis{list-style:none;padding:0;margin:8px 0 18px}
+.mis li{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.mis code{font:700 16px inherit;font-family:inherit;color:var(--bad);min-width:36px}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const S=[
+{r:"I",t:"Долгосрочные активы",a:[["01","Основные средства"],["02","Амортизация основных средств"],["03","Доходные вложения в материальные активы"],["04","Нематериальные активы"],["05","Амортизация нематериальных активов"],["06","Долгосрочные финансовые вложения"],["07","Оборудование к установке и строительные материалы"],["08","Вложения в долгосрочные активы"],["09","Отложенные налоговые активы"]]},
+{r:"II",t:"Производственные запасы",a:[["10","Материалы"],["11","Животные на выращивании и откорме"],["14","Резервы под снижение стоимости запасов"],["15","Заготовление и приобретение материалов"],["16","Отклонение в стоимости материалов"],["18","Налог на добавленную стоимость по приобретенным товарам, работам, услугам"]]},
+{r:"III",t:"Затраты на производство",a:[["20","Основное производство"],["21","Полуфабрикаты собственного производства"],["22","Страховые выплаты"],["23","Вспомогательные производства"],["25","Общепроизводственные затраты"],["26","Общехозяйственные затраты"],["28","Брак в производстве"],["29","Обслуживающие производства и хозяйства"]]},
+{r:"IV",t:"Готовая продукция и товары",a:[["41","Товары"],["42","Торговая наценка"],["43","Готовая продукция"],["44","Расходы на реализацию"],["45","Товары отгруженные"],["47","Долгосрочные активы, предназначенные для реализации"]]},
+{r:"V",t:"Денежные средства и краткосрочные финансовые вложения",a:[["50","Касса"],["51","Расчетные счета"],["52","Валютные счета"],["55","Специальные счета в банках"],["57","Денежные средства в пути"],["58","Краткосрочные финансовые вложения"],["59","Резервы под обесценение краткосрочных финансовых вложений"]]},
+{r:"VI",t:"Расчеты",a:[["60","Расчеты с поставщиками и подрядчиками"],["62","Расчеты с покупателями и заказчиками"],["63","Резервы по сомнительным долгам"],["65","Отложенные налоговые обязательства"],["66","Расчеты по краткосрочным кредитам и займам"],["67","Расчеты по долгосрочным кредитам и займам"],["68","Расчеты по налогам и сборам"],["69","Расчеты по социальному страхованию и обеспечению"],["70","Расчеты с персоналом по оплате труда"],["71","Расчеты с подотчетными лицами"],["73","Расчеты с персоналом по прочим операциям"],["75","Расчеты с учредителями"],["76","Расчеты с разными дебиторами и кредиторами"],["77","Расчеты по прямому страхованию и перестрахованию"],["79","Внутрихозяйственные расчеты"]]},
+{r:"VII",t:"Собственный капитал",a:[["80","Уставный капитал"],["81","Собственные акции (доли в уставном капитале)"],["82","Резервный капитал"],["83","Добавочный капитал"],["84","Нераспределенная прибыль (непокрытый убыток)"],["86","Целевое финансирование"]]},
+{r:"VIII",t:"Финансовые результаты",a:[["90","Доходы и расходы по текущей деятельности"],["91","Прочие доходы и расходы"],["93","Страховые взносы (премии)"],["94","Недостачи и потери от порчи имущества"],["95","Страховые резервы"],["96","Резервы предстоящих платежей"],["97","Расходы будущих периодов"],["98","Доходы будущих периодов"],["99","Прибыли и убытки"]]}
+];
+const ALL=S.flatMap(s=>s.a),app=document.getElementById('app'),$=s=>document.querySelector(s);
+const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+let lvl=1,key='all',pool=[],q=[],i=0,sc=0,wr=[],done=false,full=true;
+const getBest=k=>{try{return localStorage.getItem('pc'+k)}catch(e){return null}};
+const setBest=(k,p)=>{try{if(p>(+localStorage.getItem('pc'+k)||0))localStorage.setItem('pc'+k,p)}catch(e){}};
+const bt=k=>{const b=getBest(lvl+'-'+k);return b?' (лучший '+b+'%)':''};
+
+function home(){
+ app.innerHTML=`<header><h1>Типовой план счетов</h1><p>Тренажёр по плану счетов бухгалтерского учёта от 29.06.2011 № 50</p></header>
+ <div class="seg"><button class="${lvl==1?'on':''}" data-l="1">1 уровень<small>выбрать из 4 номеров</small></button><button class="${lvl==2?'on':''}" data-l="2">2 уровень<small>ввести номер самому</small></button></div>
+ <button class="row all" data-k="all"><b>Все счета</b><span>${ALL.length} счетов${bt('all')}</span></button>`+
+ S.map((s,n)=>`<button class="row" data-k="${n}"><i>${s.r}</i><b>${s.t}</b><span>${s.a.length}${bt(n)}</span></button>`).join('');
+}
+function start(k,list){
+ key=k;pool=k==='all'?ALL:S[k].a;full=!list;q=sh(list||pool);i=0;sc=0;wr=[];show();
+}
+function opts(it){
+ const L=it[0].length,loc=pool.filter(x=>x[0].length===L&&x!==it);
+ let d=sh(loc).slice(0,3);
+ if(d.length<3)d=d.concat(sh(ALL.filter(x=>x[0].length===L&&x!==it&&!d.includes(x))).slice(0,3-d.length));
+ return sh([it,...d]).map(x=>x[0]);
+}
+function show(){
+ done=false;const it=q[i];
+ const where=key==='all'?'Все счета':'Раздел '+S[key].r;
+ app.innerHTML=`<div class="top"><button class="ghost" data-a="menu">Меню</button><span>${i+1} из ${q.length}</span></div>
+ <div class="bar"><div style="width:${i/q.length*100}%"></div></div>
+ <div class="card"><div class="lbl">${where}, уровень ${lvl}</div><br><h2>${it[1]}</h2></div>`+
+ (lvl==1?`<div class="opts">${opts(it).map(v=>`<button class="opt" data-a="opt" data-v="${v}">${v}</button>`).join('')}</div>`
+ :`<div class="inp"><input id="in" inputmode="numeric" autocomplete="off" maxlength="2" placeholder="Номер счёта, например 01" aria-label="Номер счёта"><button class="main" data-a="check">Проверить</button></div>`)+`<div id="fb"></div>`;
+ if(lvl==2)$('#in').focus();
+}
+function answer(v,btn){
+ if(done)return;done=true;const it=q[i],ok=v===it[0];
+ ok?sc++:wr.push(it);
+ if(lvl==1)document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(b.dataset.v===it[0])b.classList.add('ok');else if(b===btn)b.classList.add('bad')});
+ else{const n=$('#in');n.disabled=true;n.classList.add(ok?'ok':'bad');$('[data-a=check]').remove()}
+ $('#fb').innerHTML=`<div class="fb ${ok?'ok':'bad'}">${ok?'Верно':'Неверно. Правильный номер: '+it[0]}</div><button class="main" id="nx" data-a="next">${i+1<q.length?'Дальше':'Показать результат'}</button>`;
+ $('#nx').focus();
+}
+function result(){
+ const p=Math.round(sc/q.length*100);if(full)setBest(lvl+'-'+key,p);
+ const msg=p>=90?'Отлично, план счетов вы знаете':p>=70?'Хороший результат, осталось добить ошибки':'Стоит повторить, начните с ошибок';
+ app.innerHTML=`<div class="top"><button class="ghost" data-a="menu">Меню</button></div>
+ <div class="score">${sc} из ${q.length}</div><p><b>${p}%.</b> ${msg}.</p>`+
+ (wr.length?`<h2 style="font-size:19px">Ошибки</h2><ul class="mis">${wr.map(x=>`<li><code>${x[0]}</code><span>${x[1]}</span></li>`).join('')}</ul><button class="main" data-a="retry">Повторить ошибки</button>`:'')+
+ `<button class="main ${wr.length?'sec':''}" data-a="again">Пройти заново</button><button class="main sec" data-a="menu">Выбрать другой раздел</button>`;
+}
+app.onclick=e=>{
+ const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+ if(d.l){lvl=+d.l;home()}
+ else if(d.k!==undefined)start(d.k==='all'?'all':+d.k);
+ else if(d.a==='opt')answer(d.v,b);
+ else if(d.a==='check'){const v=$('#in').value.trim();if(v)answer(v)}
+ else if(d.a==='next'){i++;i<q.length?show():result()}
+ else if(d.a==='menu')home();
+ else if(d.a==='again')start(key);
+ else if(d.a==='retry')start(key,[...wr]);
+};
+app.onkeydown=e=>{if(e.key==='Enter'&&e.target.id==='in'){const v=e.target.value.trim();if(v)answer(v)}};
+home();
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>

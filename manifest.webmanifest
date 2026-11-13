@@ -1,0 +1,26 @@
+{
+ "name": "Типовой план счетов",
+ "short_name": "План счетов",
+ "description": "Тренажёр по типовому плану счетов бухгалтерского учёта",
+ "lang": "ru",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#e8eee5",
+ "theme_color": "#0c6a4d",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any maskable"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any maskable"
+  }
+ ]
+}
